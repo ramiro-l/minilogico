@@ -1,9 +1,9 @@
-type AnswerOption = {
+export type AnswerOption = {
   correct: string;
   distractors: string[];
 };
 
-type FillInSegment = string | AnswerOption;
+export type FillInSegment = string | AnswerOption;
 
 export interface FillInTheBlankDefinition {
   prompt: string;
