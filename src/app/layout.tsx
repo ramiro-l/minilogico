@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Brain } from "lucide-react";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +29,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="min-h-screen bg-white">
+          {/* Header */}
+          <header className="px-6 pt-12 pb-8">
+            <Link className="flex items-center justify-center" href="/">
+              <div className="flex items-center space-x-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black shadow-sm">
+                  <Brain className="h-7 w-7 text-white" />
+                </div>
+                <span className="font-bold text-2xl text-black tracking-tight">
+                  Mini Lógico
+                </span>
+              </div>
+            </Link>
+          </header>
+
+          {children}
+        </div>
       </body>
     </html>
   );

@@ -1,24 +1,11 @@
-import { ArrowRight, Brain, Zap } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="px-6 pt-12 pb-8">
-        <div className="flex items-center justify-center">
-          <div className="flex items-center space-x-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black shadow-sm">
-              <Brain className="h-7 w-7 text-white" />
-            </div>
-            <span className="font-bold text-2xl text-black tracking-tight">
-              Mini Lógico
-            </span>
-          </div>
-        </div>
-      </header>
-
+    <div>
       {/* Main Content */}
       <main className="flex flex-col items-center justify-center px-6 py-4">
         {/* Hero Section */}
@@ -63,6 +50,18 @@ export default function Home() {
               </Button>
             </CardContent>
           </Card>
+
+          {/* Creador de Ejercicios */}
+          <div className="mt-8 flex justify-center border-gray-100 border-t pt-6">
+            <Link href="/creador">
+              <button
+                type="button"
+                className="text-gray-400 text-xs underline transition-colors hover:cursor-pointer hover:text-gray-600"
+              >
+                Creador de Ejercicios
+              </button>
+            </Link>
+          </div>
         </div>
       </main>
     </div>
