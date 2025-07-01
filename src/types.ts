@@ -3,7 +3,7 @@ type AnswerOption = {
   distractors: string[];
 };
 
-type FillInSegment = [string, AnswerOption];
+type FillInSegment = string | AnswerOption;
 
 export interface FillInTheBlankDefinition {
   prompt: string;
