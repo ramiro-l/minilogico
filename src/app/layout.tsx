@@ -43,8 +43,7 @@ export default function RootLayout({
               </div>
             </Link>
           </header>
-
-          {children}
+          <main className="m-auto max-w-md">{children}</main>
         </div>
       </body>
     </html>
