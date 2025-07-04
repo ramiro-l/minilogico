@@ -24,11 +24,13 @@ export default function Home() {
               <CardTitle>Lenguajes Formales y Computabilidad</CardTitle>
             </CardHeader>
             <CardContent>
-              <Button size="lg" className="h-12 w-full">
-                <Zap className="mr-2 h-4 w-4" />
-                Empezar Tómbola
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
+              <Link href="/tombola">
+                <Button size="lg" className="h-12 w-full">
+                  <Zap className="mr-2 h-4 w-4" />
+                  Empezar Tómbola
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 

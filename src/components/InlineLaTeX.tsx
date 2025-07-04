@@ -11,7 +11,7 @@ export default function InlineLaTeX({ math }: InlineLaTeXProps) {
     .flatMap((part) => part.split(/\$(.*?)\$/g));
 
   return (
-    <>
+    <span className="inline">
       {parts.map((part, index) =>
         index % 2 === 1 ? (
           <InlineMath key={index + part} math={part} />
@@ -19,6 +19,6 @@ export default function InlineLaTeX({ math }: InlineLaTeXProps) {
           <span key={index + part}>{part}</span>
         )
       )}
-    </>
+    </span>
   );
 }
