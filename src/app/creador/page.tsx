@@ -1,22 +1,25 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: < "solo para crear, no para el usuario" > */
+/** biome-ignore-all lint/a11y/noLabelWithoutControl: < "solo para crear, no para el usuario" > */
 "use client";
 
 import { AlertCircle, CheckCircle, Copy } from "lucide-react";
 import { useMemo, useState } from "react";
+import InlineLaTeX from "@/components/InlineLaTeX";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type {
   AnswerOption,
-  FillInSegment,
-  FillInTheBlankDefinition,
-} from "@/types";
+  ExerciseDefinition,
+  SentenceSegment,
+} from "../../data/json_types";
 
 // Compilador de texto
 function parseText(text: string): {
-  segments: FillInSegment[];
+  segments: SentenceSegment[];
   errors: string[];
 } {
   const errors: string[] = [];
-  const segments: FillInSegment[] = [];
+  const segments: SentenceSegment[] = [];
 
   // Regex para encontrar patrones {respuesta|distractor1|distractor2}
   const pattern = /\{([^}]+)\}/g;
@@ -88,7 +91,9 @@ function parseText(text: string): {
 }
 
 export default function CreadorPage() {
-  const [prompt, setPrompt] = useState("");
+  const [materia, setMateria] = useState("Lenguaje Formal y Computabilidad");
+  const [labels, setLabels] = useState("");
+  const [title, setTitle] = useState("");
   const [textContent, setTextContent] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -107,7 +112,7 @@ export default function CreadorPage() {
     const errors: string[] = [];
 
     // Validar título
-    if (textContent.trim() && !prompt.trim()) {
+    if (textContent.trim() && !title.trim()) {
       errors.push("El título del ejercicio es obligatorio");
     }
 
@@ -115,11 +120,11 @@ export default function CreadorPage() {
     errors.push(...parseErrors);
 
     return errors;
-  }, [prompt, textContent, parseErrors]);
+  }, [title, textContent, parseErrors]);
 
   // Generar JSON para mostrar
   const generatedJSON = useMemo(() => {
-    if (segments.length === 0 || !prompt.trim()) {
+    if (segments.length === 0 || !title.trim()) {
       return null;
     }
 
@@ -140,13 +145,23 @@ export default function CreadorPage() {
       return null;
     }
 
-    const fillInDefinition: FillInTheBlankDefinition = {
-      prompt,
-      segments: validSegments,
+    // Convertir labels string a array
+    const labelsArray = labels.trim()
+      ? labels
+          .split(",")
+          .map((label) => label.trim())
+          .filter(Boolean)
+      : ["Item 1"];
+
+    const exerciseDefinition: ExerciseDefinition = {
+      materia,
+      labels: labelsArray,
+      title,
+      sentence: validSegments,
     };
 
-    return JSON.stringify(fillInDefinition, null, 2);
-  }, [prompt, segments, allErrors]);
+    return JSON.stringify(exerciseDefinition, null, 2);
+  }, [materia, labels, title, segments, allErrors]);
 
   const copyToClipboard = async () => {
     if (!generatedJSON) return;
@@ -172,154 +187,201 @@ export default function CreadorPage() {
   };
 
   return (
-    <div>
-      {/* Main Content */}
-      <main className="flex flex-col items-center justify-center px-6 py-4">
-        {/* Title Section */}
-        <div className="mb-1 max-w-sm text-center">
-          <h1 className="mb-2 font-bold text-black text-xl">
-            Editor de Ejercicios
-          </h1>
-        </div>
+    <div className="absolute top-0 left-0 min-h-screen w-full p-6">
+      {/* Header */}
+      <div className="mx-auto mb-3 max-w-7xl sm:mb-4">
+        <h1 className="text-center font-bold text-gray-900 text-xl sm:text-2xl">
+          Editor de Ejercicios
+        </h1>
+        <p className="mt-1 px-2 text-center text-gray-600 text-xs sm:text-sm">
+          Usa{" "}
+          <code className="rounded bg-white px-1 py-0.5 text-xs">$...$</code>{" "}
+          para LaTeX y{" "}
+          <code className="rounded bg-white px-1 py-0.5 text-xs">
+            {"{respuesta|distractor1|distractor2}"}
+          </code>{" "}
+          para opciones
+        </p>
+      </div>
 
-        <div className="mb-6 w-full max-w-lg rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm">
-          <h3 className="mb-3 font-semibold text-gray-800">
-            ¿Cómo usar el editor?
-          </h3>
-          <ul className="space-y-2 text-gray-600">
-            <li className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-              <span>Escribe texto normal.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-              <span>
-                Usa{" "}
-                <code className="rounded bg-white px-1.5 py-0.5 font-mono text-xs">
-                  $ ... $
-                </code>{" "}
-                para LaTeX.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-              <div>
-                <span>
-                  Para agregar opciones{" "}
-                  <b className="font-medium text-gray-800 text-xs">
-                    (solo en el contenido)
-                  </b>
-                  :
-                </span>
-                <div className="mt-1">
-                  <code className="rounded bg-white px-2 py-1 font-mono text-xs">
-                    {
-                      "{respuesta_correcta|opción_incorrecta1|opción_incorrecta2}"
-                    }
-                  </code>
+      {/* Main Layout - Two Columns */}
+      <div className="mx-auto grid max-w-7xl gap-3 sm:gap-6 lg:grid-cols-2">
+        {/* Left Column - Editor */}
+        <div className="space-y-3 sm:space-y-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm sm:text-base">
+                Datos del Ejercicio
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1 block font-medium text-gray-700 text-xs">
+                    Materia
+                  </label>
+                  <input
+                    value={materia}
+                    onChange={(e) => setMateria(e.target.value)}
+                    placeholder="Lenguaje Formal y Computabilidad"
+                    className="w-full rounded border border-gray-200 p-2 text-sm focus:border-blue-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="mb-1 block font-medium text-gray-700 text-xs">
+                    Etiquetas
+                  </label>
+                  <input
+                    value={labels}
+                    onChange={(e) => setLabels(e.target.value)}
+                    placeholder="Combo 1, Item 1"
+                    className="w-full rounded border border-gray-200 p-2 text-sm focus:border-blue-500 focus:outline-none"
+                  />
                 </div>
               </div>
-            </li>
-          </ul>
-        </div>
-
-        {/* Editor Cards */}
-        <div className="w-full max-w-lg space-y-4">
-          {/* Instrucciones Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-left">Enunciado</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <textarea
-                id="prompt"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Escribe las enunciado..."
-                className="w-full resize-none rounded border border-gray-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                rows={2}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Editor de Contenido */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-left">Contenido</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="space-y-3">
+              <div>
+                <label className="mb-1 block font-medium text-gray-700 text-xs">
+                  Título
+                </label>
                 <textarea
-                  value={textContent}
-                  onChange={(e) => setTextContent(e.target.value)}
-                  placeholder="Ejemplo: La capital de Argentina es {Buenos Aires|Córdoba|Rosario} y tiene más de {3|2|4|5} millones de habitantes."
-                  className="w-full resize-none rounded border border-gray-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                  rows={8}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Escribe el título del ejercicio..."
+                  className="w-full resize-none rounded border border-gray-200 p-2 text-sm focus:border-blue-500 focus:outline-none"
+                  rows={2}
                 />
               </div>
             </CardContent>
           </Card>
 
-          {/* JSON Generado */}
           <Card>
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <CardTitle>JSON Generado</CardTitle>
-                {allErrors.length === 0 && generatedJSON ? (
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                ) : !textContent.trim() && !generatedJSON ? (
-                  <AlertCircle className="h-4 w-4 text-gray-500" />
-                ) : (
-                  <AlertCircle className="h-4 w-4 text-red-500" />
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm sm:text-base">
+                Contenido del Ejercicio
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <textarea
+                value={textContent}
+                onChange={(e) => setTextContent(e.target.value)}
+                placeholder="Dado un alfabeto $\Sigma$, una familia $\Sigma$-indexada será {$G$|$H$|$f$} donde {$\text{Im}_G$|$\text{Dom}_G$} es el conjunto..."
+                className="w-full resize-none rounded border border-gray-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
+                rows={8}
+              />
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Right Column - Preview & Output */}
+        <div className="space-y-3 sm:space-y-4">
+          {/* Previsualización */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm sm:text-base">
+                Previsualización
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {title.trim() && segments.length > 0 ? (
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="mb-1 font-medium text-gray-800 text-xs">
+                      Título:
+                    </h4>
+                    <div className="rounded border bg-white p-2">
+                      <InlineLaTeX math={title} />
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="mb-1 font-medium text-gray-800 text-xs">
+                      Contenido:
+                    </h4>
+                    <div className="rounded border bg-white p-2">
+                      <div className="flex flex-wrap items-center gap-1">
+                        {segments.map((segment, index) =>
+                          typeof segment === "string" ? (
+                            <span key={`text-${index}`}>
+                              <InlineLaTeX math={segment} />
+                            </span>
+                          ) : (
+                            <span
+                              key={`option-${index}`}
+                              className="rounded bg-green-100 px-1.5 py-0.5 font-medium text-green-800 text-xs"
+                            >
+                              <InlineLaTeX math={segment.correct} />
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="rounded border border-gray-200 bg-gray-50 p-3 text-center text-gray-500 text-xs">
+                  Complete el título y contenido para ver la previsualización
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Errores */}
+          {allErrors.length > 0 && (
+            <Card className="border-red-200">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-red-700 text-sm sm:text-base">
+                  <AlertCircle className="h-4 w-4" />
+                  Errores
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-1 text-red-700 text-xs sm:text-sm">
+                  {allErrors.map((error: string, index: number) => (
+                    <li key={`error-${index}`}>• {error}</li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* JSON Resultado */}
+          <Card>
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+                  JSON Resultado
+                  {allErrors.length === 0 && generatedJSON && (
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                  )}
+                </CardTitle>
+                {generatedJSON && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={copyToClipboard}
+                    className="h-6 gap-1 text-xs sm:h-7"
+                  >
+                    <Copy className="h-3 w-3" />
+                    {copySuccess ? "¡Copiado!" : "Copiar"}
+                  </Button>
                 )}
               </div>
             </CardHeader>
-            <CardContent className="space-y-4 p-0">
-              {allErrors.length > 0 && (
-                <div className="rounded border border-red-200 bg-red-50 p-3">
-                  <p className="mb-2 font-medium text-red-800 text-sm">
-                    Errores encontrados:
-                  </p>
-                  <ul className="space-y-1 text-red-700 text-sm">
-                    {allErrors.map((error: string, index: number) => (
-                      <li key={`error-${index}-${error.slice(0, 10)}`}>
-                        {error}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {generatedJSON && (
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium text-gray-700 text-sm">
-                      Resultado:
-                    </span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={copyToClipboard}
-                      className="h-8 gap-1 text-xs"
-                    >
-                      <Copy className="h-3 w-3" />
-                      {copySuccess ? "¡Copiado!" : "Copiar"}
-                    </Button>
-                  </div>
-                  <pre className="overflow-auto rounded border border-gray-200 bg-gray-50 p-3 text-xs leading-relaxed">
-                    <code>{generatedJSON}</code>
-                  </pre>
-                </div>
-              )}
-              {!textContent.trim() && !generatedJSON && (
-                <div className="rounded border border-gray-200 bg-gray-50 p-3 text-gray-800 text-sm">
-                  Complete tanto el enunciado como el contenido.
+            <CardContent>
+              {generatedJSON ? (
+                <pre className="overflow-auto rounded border bg-gray-50 p-2 text-xs sm:p-3">
+                  <code>{generatedJSON}</code>
+                </pre>
+              ) : (
+                <div className="rounded border border-gray-200 bg-gray-50 p-3 text-center text-gray-500 text-xs sm:text-sm">
+                  {allErrors.length > 0
+                    ? "Corrija los errores para generar el JSON"
+                    : "Complete todos los campos para generar el JSON"}
                 </div>
               )}
             </CardContent>
           </Card>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

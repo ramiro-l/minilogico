@@ -1,0 +1,33 @@
+{
+  "materia": "Lenguaje Formal y Computabilidad",
+  "labels": ["Combo 1", "Item 4"],
+  "title": "Familia $\\Sigma$-indexada de funciones",
+  "sentence": [
+    "Dado un alfabeto $\\Sigma$, una familia $\\Sigma$-indexada de funciones es una función",
+    {
+      "correct": "$\\mathcal{G}$",
+      "distractors": ["$H$", "$f$"]
+    },
+    "tal que su dominio es",
+    {
+      "correct": "$\\Sigma$",
+      "distractors": ["$\\omega$", "$\\Sigma^*$"]
+    },
+    "y para cada",
+    {
+      "correct": "$a \\in \\Sigma$",
+      "distractors": ["$x \\in \\omega$", "$\\alpha \\in \\Sigma^*$"]
+    },
+    "se tiene que",
+    {
+      "correct": "$\\mathcal{G}(a)$",
+      "distractors": ["$f(a)$", "$H(a)$"]
+    },
+    "es una función, la cual se denota también por",
+    {
+      "correct": "$\\mathcal{G}_a$",
+      "distractors": ["$\\mathcal{H}_a$", "$G_a$"]
+    },
+    "."
+  ]
+}

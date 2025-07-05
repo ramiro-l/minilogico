@@ -11,10 +11,12 @@ export default function InlineLaTeX({ math }: InlineLaTeXProps) {
     .flatMap((part) => part.split(/\$(.*?)\$/g));
 
   return (
-    <span className="inline">
+    <span className="inline font-latex">
       {parts.map((part, index) =>
         index % 2 === 1 ? (
-          <InlineMath key={index + part} math={part} />
+          <span key={index + part} className="text-sm">
+            <InlineMath math={part} />
+          </span>
         ) : (
           <span key={index + part}>{part}</span>
         )

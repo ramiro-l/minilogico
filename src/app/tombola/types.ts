@@ -1,12 +1,10 @@
-type UUID = string;
-
 export interface Option {
-  id: UUID;
+  id: string;
   value: string;
 }
 
 export interface Blank {
-  id: UUID;
+  id: string;
   correctOption: Option;
   userResponse?: Option;
 }
@@ -17,3 +15,10 @@ export interface SentenceComplete {
   sentence: (string | Blank)[];
   options: Option[];
 }
+
+// ==================================================================
+
+export type ExerciseHook<T> = T & {
+  init: (data: T) => void;
+  getInfo: () => T;
+};

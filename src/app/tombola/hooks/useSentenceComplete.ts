@@ -1,13 +1,13 @@
 import { create } from "zustand";
-import type { Blank, Option, SentenceComplete } from "../types";
+import type { Blank, ExerciseHook, Option, SentenceComplete } from "../types";
 
-interface Hook extends SentenceComplete {
-  initSentenceComplete: (data: SentenceComplete) => void;
-  reset: () => void;
+interface Hook extends ExerciseHook<SentenceComplete> {
+  setAnswer: (segmentId: string, response: Option) => void;
+  removeAnswer: (segmentId: string) => void;
 
+  // Private methods
   getBlank: (segmentId: string) => Blank | undefined;
   updateBlank: (segmentId: string, userResponse: Option | undefined) => void;
-
   addOption: (option: Option) => void;
   removeOption: (optionId: string) => void;
 }
@@ -18,13 +18,43 @@ export const useSentenceComplete = create<Hook>((set, _get) => ({
   sentence: [],
   options: [],
 
-  initSentenceComplete: (data) => {
+  init: (data) => {
     set({
       title: data.title,
       labels: data.labels,
       sentence: data.sentence,
       options: data.options,
     });
+  },
+
+  getInfo() {
+    const state = _get();
+    return {
+      title: state.title,
+      labels: state.labels,
+      sentence: state.sentence,
+      options: state.options,
+    };
+  },
+
+  setAnswer: (segmentId: string, response: Option) => {
+    const { getBlank, updateBlank, addOption, removeOption } = _get();
+    const existingBlank = getBlank(segmentId);
+    if (existingBlank?.userResponse) {
+      addOption(existingBlank.userResponse);
+    }
+
+    updateBlank(segmentId, response);
+    removeOption(response.id);
+  },
+
+  removeAnswer: (segmentId: string) => {
+    const { getBlank, updateBlank, addOption } = _get();
+    const oldBlank = getBlank(segmentId);
+    if (oldBlank?.userResponse) {
+      updateBlank(segmentId, undefined);
+      addOption(oldBlank.userResponse);
+    }
   },
 
   getBlank: (segmentId) => {
@@ -60,12 +90,4 @@ export const useSentenceComplete = create<Hook>((set, _get) => ({
       options: state.options.filter((opt) => opt.id !== optionId),
     }));
   },
-
-  reset: () =>
-    set({
-      title: "",
-      labels: [],
-      sentence: [],
-      options: [],
-    }),
 }));

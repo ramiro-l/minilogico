@@ -1,29 +1,22 @@
 "use client";
 
-import InlineLaTeX from "@/components/InlineLaTeX";
-import DragDropContext from "./components/DragDropContext";
-import DragDropOptions from "./components/DragDropOptions";
-import DragDropSentence from "./components/DragDropSentence";
-import { useSentenceComplete } from "./hooks/useSentenceComplete";
-import { useSentenceCompleteController } from "./hooks/useSentenceCompleteController";
+import { useEffect } from "react";
+import TombolaExerciseView from "./components/views/TombolaExerciseView";
+import TombolaFinishView from "./components/views/TombolaFinishView";
+import TombolaLoadingView from "./components/views/TombolaLoadingView";
+import { useTombola } from "./hooks/useTombola";
 
 export default function FillExercise() {
-  const { setAnswer, removeAnswer } = useSentenceCompleteController();
-  const { sentence, options, title } = useSentenceComplete();
+  const { status, init } = useTombola();
 
-  return (
-    <div>
-      <p className="mb-4 font-bold text-xl">
-        <InlineLaTeX math={title} />
-      </p>
-      <DragDropContext
-        handleDragCompletion={setAnswer}
-        handleRemoveAnswer={removeAnswer}
-      >
-        <DragDropSentence sentence={sentence} />
-        <hr className="my-10" />
-        <DragDropOptions options={options} />
-      </DragDropContext>
-    </div>
-  );
+  useEffect(() => {
+    if (status === "idle") init();
+  }, [status, init]);
+  if (status === "playing") {
+    return <TombolaExerciseView />;
+  } else if (status === "finished") {
+    return <TombolaFinishView />;
+  } else {
+    return <TombolaLoadingView />;
+  }
 }

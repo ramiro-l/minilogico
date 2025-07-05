@@ -1,10 +1,14 @@
 import { useDraggable } from "@dnd-kit/core";
 import InlineLaTeX from "@/components/InlineLaTeX";
-import type { Option } from "../types";
+import type { Option } from "../../../types";
+import { LOCATION } from "./const";
 
-export default function DraggableOption({ option }: { option: Option }) {
+export default function ItemOption({ option }: { option: Option }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({ id: option.id, data: option });
+    useDraggable({
+      id: option.id,
+      data: { option: option, location: LOCATION.options },
+    });
 
   const style = transform
     ? { transform: `translate(${transform.x}px, ${transform.y}px)` }

@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.font-latex {
+  font-family: var(--font-latex);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
