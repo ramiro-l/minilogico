@@ -11,7 +11,7 @@ export default function ExerciseSentenceComplete() {
   return (
     <>
       <p className="mb-4 font-bold text-xl">
-        <InlineLaTeX math={title} />
+        <InlineLaTeX math={title} fontSizeLatex="text-normal" />
       </p>
       <div className="-mt-3 flex w-full justify-between">
         <Labels labels={labels} />

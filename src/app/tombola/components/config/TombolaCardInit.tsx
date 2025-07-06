@@ -15,7 +15,7 @@ export default function TombolaCardInit({ title }: { title: string }) {
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="select-none space-y-3">
         <Link href="/tombola">
           <Button size="lg" className="h-12 w-full" onClick={init}>
             <Zap className="mr-2 h-4 w-4" />

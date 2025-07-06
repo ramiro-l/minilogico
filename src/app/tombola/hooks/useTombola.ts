@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 import type { SentenceComplete } from "../types";
 import { loadRandomSentenceComplete } from "../utils/loadRandomSentenceComplete";
 import { useSentenceComplete } from "./useSentenceComplete";
@@ -33,56 +34,70 @@ interface Hook {
   difficulty: Difficulty;
   history: SentenceComplete[];
   status: "idle" | "playing" | "finished";
+  hasHydrated: boolean;
   init: () => void;
   advance: () => void;
-  reset: () => void;
   setLimitExercises: (limit: number) => void;
   setDifficulty: (difficulty: Difficulty) => void;
 }
 
-export const useTombola = create<Hook>((set, get) => ({
-  limitExercises: MAX_EXERCISES_DEFAULT,
-  difficulty: "medium" as Difficulty,
-  completedExercises: 1,
-  history: [],
-  status: "idle",
-
-  init: () => {
-    set({
+export const useTombola = create<Hook>()(
+  persist(
+    (set, get) => ({
+      limitExercises: MAX_EXERCISES_DEFAULT,
+      difficulty: "medium" as Difficulty,
       completedExercises: 1,
       history: [],
-      status: "playing",
-    });
-    const { difficulty } = get();
-    useSentenceComplete.getState().init(loadRandomSentenceComplete(difficulty));
-  },
+      status: "idle",
+      hasHydrated: false,
 
-  advance: () => {
-    const { getInfo, init } = useSentenceComplete.getState();
-    const { completedExercises, limitExercises, difficulty } = get();
+      init: () => {
+        set({
+          completedExercises: 1,
+          history: [],
+          status: "playing",
+        });
+        const { difficulty } = get();
+        useSentenceComplete
+          .getState()
+          .init(loadRandomSentenceComplete(difficulty));
+      },
 
-    set((state) => ({
-      history: [...state.history, { ...getInfo() }],
-      completedExercises: state.completedExercises + 1,
-    }));
+      advance: () => {
+        const { getInfo, init } = useSentenceComplete.getState();
+        const { completedExercises, limitExercises, difficulty } = get();
 
-    if (completedExercises === limitExercises) {
-      set({ status: "finished" });
-    } else {
-      set(() => ({
-        status: "playing",
-      }));
-      init(loadRandomSentenceComplete(difficulty));
+        set((state) => ({
+          history: [...state.history, { ...getInfo() }],
+          completedExercises: state.completedExercises + 1,
+        }));
+
+        if (completedExercises === limitExercises) {
+          set({ status: "finished" });
+        } else {
+          set(() => ({
+            status: "playing",
+          }));
+          init(loadRandomSentenceComplete(difficulty));
+        }
+      },
+
+      setLimitExercises: (limit: number) => {
+        if (MIN_EXERCISES <= limit && limit <= MAX_EXERCISES) {
+          set({ limitExercises: limit });
+        }
+      },
+
+      setDifficulty: (difficulty: Difficulty) => set({ difficulty }),
+    }),
+    {
+      name: "tombola-storage",
+      storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.hasHydrated = true;
+        }
+      },
     }
-  },
-
-  reset: () => set({ completedExercises: 1, history: [], status: "idle" }),
-
-  setLimitExercises: (limit: number) => {
-    if (MIN_EXERCISES <= limit && limit <= MAX_EXERCISES) {
-      set({ limitExercises: limit });
-    }
-  },
-
-  setDifficulty: (difficulty: Difficulty) => set({ difficulty }),
-}));
+  )
+);

@@ -29,7 +29,7 @@ export default function TombolaExerciseView() {
       </div>
 
       <Button
-        className="w-full"
+        className="w-full select-none"
         onClick={advance}
         disabled={completedExercises > limitExercises}
       >

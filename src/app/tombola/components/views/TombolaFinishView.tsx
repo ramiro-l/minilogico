@@ -13,7 +13,7 @@ import { useTombola } from "../../hooks/useTombola";
 import type { Blank } from "../../types";
 
 export default function TombolaFinishView() {
-  const { history, limitExercises, reset } = useTombola();
+  const { history, limitExercises, init } = useTombola();
 
   const perfectExercises = history.filter((exercise) => {
     const blanks = exercise.sentence.filter(
@@ -31,7 +31,9 @@ export default function TombolaFinishView() {
       <div className="w-full max-w-3xl">
         <div className="mb-6 text-center">
           <h1 className="mb-2 font-bold text-2xl">¡Terminaste!</h1>
-          <p className="text-gray-600">Resumen de tus respuestas</p>
+          <p className="text-gray-600">
+            Revisá tus respuestas ejercicio por ejercicio
+          </p>
         </div>
 
         <Card className="mb-6 border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 py-0">
@@ -178,7 +180,7 @@ export default function TombolaFinishView() {
         </Accordion>
 
         <div className="mt-6 text-center">
-          <Button className="gap-2" onClick={reset}>
+          <Button className="gap-2" onClick={init}>
             <RotateCcw className="h-4 w-4" />
             Jugar de nuevo
           </Button>

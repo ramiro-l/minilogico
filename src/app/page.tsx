@@ -12,7 +12,7 @@ export default function Home() {
         <Logo />
       </header>
       <div className="flex flex-col items-center justify-center px-6 py-4">
-        <div className="mb-16 max-w-sm text-center">
+        <div className="mb-8 max-w-sm text-center">
           <p className="text-gray-600 leading-relaxed">
             Practica con <b>ejercicios aleatorios</b> sacados de los{" "}
             <b>combos para los finales</b> de las materias.
