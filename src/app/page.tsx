@@ -1,9 +1,12 @@
-import { ArrowRight, Zap } from "lucide-react";
 import Link from "next/link";
-import Logo from "@/components/Logo";
+
+import { ArrowRight, Zap } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import TombolaCardInit from "./tombola/components/config/TombolaCardInit";
+
+import Logo from "@/components/Logo";
+import TombolaCardInit from "@/components/tombola/config/TombolaCardInit";
 
 export default function Home() {
   return (

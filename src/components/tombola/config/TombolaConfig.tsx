@@ -1,12 +1,14 @@
 "use client";
 
 import { Settings } from "lucide-react";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
 import DifficultySelector from "./DifficultySelector";
 import ExerciseCounter from "./ExerciseCounter";
 

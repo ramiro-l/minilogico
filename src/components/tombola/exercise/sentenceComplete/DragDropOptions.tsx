@@ -1,5 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
-import type { Option } from "../../../types";
+
+import type { Option } from "@/lib/tombola/types/tombolaExercise";
+
 import { AREA, OPTIONS_AREA_ID } from "./const";
 import ItemOption from "./ItemOption";
 

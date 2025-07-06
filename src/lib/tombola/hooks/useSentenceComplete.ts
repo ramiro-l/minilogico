@@ -1,7 +1,12 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import type { Blank, ExerciseHook, Option, SentenceComplete } from "../types";
+import type {
+  Blank,
+  ExerciseHook,
+  Option,
+  SentenceComplete,
+} from "@/lib/tombola/types/tombolaExercise";
 
 interface Hook extends ExerciseHook<SentenceComplete> {
   setAnswer: (segmentId: string, response: Option) => void;

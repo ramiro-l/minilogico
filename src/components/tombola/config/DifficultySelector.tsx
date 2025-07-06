@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+
 import {
   DIFFICULTY_CONFIG,
   type Difficulty,
   useTombola,
-} from "../../hooks/useTombola";
+} from "@/lib/tombola/hooks/useTombola";
 
 export default function DifficultySelector() {
   const { difficulty, setDifficulty } = useTombola();

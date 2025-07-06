@@ -1,6 +1,8 @@
 import { useDraggable, useDroppable } from "@dnd-kit/core";
+
 import InlineLaTeX from "@/components/InlineLaTeX";
-import type { Option } from "../../../types";
+
+import type { Option } from "@/lib/tombola/types/tombolaExercise";
 
 import { AREA, LOCATION } from "./const";
 

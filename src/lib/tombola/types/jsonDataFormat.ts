@@ -1,5 +1,3 @@
-// Tipos para la nueva estructura de ejercicios
-
 export interface AnswerOption {
   correct: string;
   distractors: string[];

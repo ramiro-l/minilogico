@@ -12,7 +12,7 @@
         },
         "es llamado $\\Sigma$-recursivo si y sólo si su función característica",
         {
-          "correct": "$\\chi_{S}$",
+          "correct": "$\\chi_{S}^{\\omega \\times  \\Sigma^*}$",
           "distractors": ["$\\rho_{S}$", "$f_{S}$"]
         },
         "es",
@@ -40,7 +40,10 @@
         "para denotar el número",
         {
           "correct": "$\\prod_{i=1}^{\\infty} pr(i)^{s_i}$",
-          "distractors": ["$\\sum_{i=1}^{\\infty} s_i$", "$\\prod_{i=1}^{n} s_i$"]
+          "distractors": [
+            "$\\sum_{i=1}^{\\infty} s_i$",
+            "$\\prod_{i=1}^{n} s_i$"
+          ]
         },
         ", donde $pr(i)$ es el i-ésimo primo."
       ]
@@ -62,7 +65,10 @@
         "tales que su dominio está contenido en",
         {
           "correct": "$\\omega^n \\times \\Sigma^{*m}$",
-          "distractors": ["$\\Sigma^{*n} \\times \\omega^m$", "$\\omega^n \\times \\omega^m$"]
+          "distractors": [
+            "$\\Sigma^{*n} \\times \\omega^m$",
+            "$\\omega^n \\times \\omega^m$"
+          ]
         },
         "y su imagen está contenida en",
         {

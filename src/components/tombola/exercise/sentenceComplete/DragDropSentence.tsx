@@ -1,7 +1,9 @@
 "use client";
 
 import InlineLaTeX from "@/components/InlineLaTeX";
-import type { SentenceComplete } from "../../../types";
+
+import type { SentenceComplete } from "@/lib/tombola/types/tombolaExercise";
+
 import ItemBlank from "./ItemBlank";
 
 interface Props {

@@ -1,7 +1,9 @@
 "use client";
 
 import { closestCenter, DndContext, type DragEndEvent } from "@dnd-kit/core";
-import type { Option } from "../../../types";
+
+import type { Option } from "@/lib/tombola/types/tombolaExercise";
+
 import { AREA, LOCATION } from "./const";
 
 interface Props {

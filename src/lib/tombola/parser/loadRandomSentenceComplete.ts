@@ -1,9 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import final_lenguajes from "@/data/final_lenguajes.json";
-import type { ExercisesData } from "@/data/json_types";
-import type { Difficulty } from "../hooks/useTombola";
-import { DIFFICULTY_CONFIG } from "../hooks/useTombola";
-import type { SentenceComplete } from "../types";
+
+import final_lenguajes from "@/lib/tombola/data/final_lenguajes.json";
+
+import type { Difficulty } from "@/lib/tombola/hooks/useTombola";
+import { DIFFICULTY_CONFIG } from "@/lib/tombola/hooks/useTombola";
+
+import type { ExercisesData } from "@/lib/tombola/types/jsonDataFormat";
+import type { SentenceComplete } from "@/lib/tombola/types/tombolaExercise";
 
 const exercisesData = final_lenguajes as ExercisesData;
 

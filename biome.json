@@ -22,7 +22,8 @@
     "rules": {
       "recommended": true,
       "style": {
-        "noNegationElse": "off"
+        "noNegationElse": "off",
+        "useImportType": "error"
       },
       "suspicious": {
         "noArrayIndexKey": "error",
@@ -34,6 +35,62 @@
       },
       "nursery": {
         "useSortedClasses": "error"
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ["react", "react-dom", "react/**"],
+              ":BLANK_LINE:",
+              ["next", "next/**", "@next/**"],
+              ":BLANK_LINE:",
+              ["@dnd-kit/**", "@radix-ui/**"],
+              ":BLANK_LINE:",
+              [
+                "clsx",
+                "class-variance-authority",
+                "tailwind-merge",
+                "katex",
+                "react-katex"
+              ],
+              ":BLANK_LINE:",
+              ["uuid"],
+              ":BLANK_LINE:",
+              ["lucide-react"],
+              ":BLANK_LINE:",
+              ["zustand", "zustand/**"],
+              ":BLANK_LINE:",
+              ["@/components/ui/**"],
+              ":BLANK_LINE:",
+              ["@/components/**"],
+              ":BLANK_LINE:",
+              ["@/lib/utils"],
+              ":BLANK_LINE:",
+              ["@/lib/tombola/data/**"],
+              ":BLANK_LINE:",
+              ["@/lib/tombola/hooks/**"],
+              ":BLANK_LINE:",
+              ["@/lib/tombola/parser/**"],
+              ":BLANK_LINE:",
+              ["@/lib/tombola/types/**"],
+              ":BLANK_LINE:",
+              ["@/lib/**"],
+              ":BLANK_LINE:",
+              ["../**"],
+              ":BLANK_LINE:",
+              ["./**"],
+              ":BLANK_LINE:",
+              { "type": true },
+              ":BLANK_LINE:",
+              { "type": false }
+            ]
+          }
+        }
       }
     }
   },

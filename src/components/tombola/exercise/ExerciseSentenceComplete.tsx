@@ -1,5 +1,7 @@
 import InlineLaTeX from "@/components/InlineLaTeX";
-import { useSentenceComplete } from "../../hooks/useSentenceComplete";
+
+import { useSentenceComplete } from "@/lib/tombola/hooks/useSentenceComplete";
+
 import DragDropContext from "./sentenceComplete/DragDropContext";
 import DragDropOptions from "./sentenceComplete/DragDropOptions";
 import DragDropSentence from "./sentenceComplete/DragDropSentence";

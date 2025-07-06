@@ -1,8 +1,11 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { SentenceComplete } from "../types";
-import { loadRandomSentenceComplete } from "../utils/loadRandomSentenceComplete";
-import { useSentenceComplete } from "./useSentenceComplete";
+
+import { useSentenceComplete } from "@/lib/tombola/hooks/useSentenceComplete";
+
+import { loadRandomSentenceComplete } from "@/lib/tombola/parser/loadRandomSentenceComplete";
+
+import type { SentenceComplete } from "@/lib/tombola/types/tombolaExercise";
 
 export const MIN_EXERCISES = 1;
 export const MAX_EXERCISES = 100;
@@ -34,7 +37,7 @@ interface Hook {
   difficulty: Difficulty;
   history: SentenceComplete[];
   status: "idle" | "playing" | "finished";
-  usedExerciseIndices: number[]; // Nuevo: índices de ejercicios ya usados
+  usedExerciseIndices: number[];
   hasHydrated: boolean;
   init: () => void;
   advance: () => void;
@@ -50,14 +53,14 @@ export const useTombola = create<Hook>()(
       completedExercises: 1,
       history: [],
       status: "idle",
-      usedExerciseIndices: [], // Nuevo: inicializar array vacío
+      usedExerciseIndices: [],
       hasHydrated: false,
 
       init: () => {
         set({
           completedExercises: 1,
           history: [],
-          usedExerciseIndices: [], // Reiniciar los ejercicios usados
+          usedExerciseIndices: [],
           status: "playing",
         });
         const { difficulty, usedExerciseIndices } = get();

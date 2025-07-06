@@ -1,5 +1,6 @@
-import { Brain } from "lucide-react";
 import Link from "next/link";
+
+import { Brain } from "lucide-react";
 
 export default function Logo() {
   return (

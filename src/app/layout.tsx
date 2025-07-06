@@ -35,9 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${latexFont.variable} bg-white antialiased`}
       >
-        <main className="m-auto flex min-h-screen max-w-md">
-          <div className="m-auto">{children}</div>
-        </main>
+        <main className="m-auto flex min-h-screen max-w-md">{children}</main>
       </body>
     </html>
   );

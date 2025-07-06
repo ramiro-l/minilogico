@@ -1,6 +1,9 @@
 import { useDraggable } from "@dnd-kit/core";
+
 import InlineLaTeX from "@/components/InlineLaTeX";
-import type { Option } from "../../../types";
+
+import type { Option } from "@/lib/tombola/types/tombolaExercise";
+
 import { LOCATION } from "./const";
 
 export default function ItemOption({ option }: { option: Option }) {
