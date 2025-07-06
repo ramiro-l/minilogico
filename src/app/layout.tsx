@@ -21,7 +21,8 @@ const latexFont = IBM_Plex_Serif({
 
 export const metadata: Metadata = {
   title: "Mini Lógico",
-  description: "", // TODO: Add a description
+  description:
+    "Aprende lógica matemática jugando. Ejercicios interactivos con tómbola aleatoria.",
 };
 
 export default function RootLayout({
