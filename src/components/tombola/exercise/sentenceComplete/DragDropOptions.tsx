@@ -22,7 +22,7 @@ export default function DragDropOptions({ options }: Props) {
         isOver ? "border-blue-400 bg-blue-50" : "border-gray-300 bg-gray-50"
       }`}
     >
-      {options.map((opt, _idx) => (
+      {options.map((opt) => (
         <ItemOption key={opt.id} option={opt} />
       ))}
     </div>
