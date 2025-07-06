@@ -1,16 +1,35 @@
 import { v4 as uuidv4 } from "uuid";
 import final_lenguajes from "@/data/final_lenguajes.json";
+import type { ExercisesData } from "@/data/json_types";
 import type { Difficulty } from "../hooks/useTombola";
 import { DIFFICULTY_CONFIG } from "../hooks/useTombola";
 import type { SentenceComplete } from "../types";
 
+const exercisesData = final_lenguajes as ExercisesData;
+
 export function loadRandomSentenceComplete(
-  difficulty: Difficulty = "medium"
-): SentenceComplete {
+  difficulty: Difficulty = "medium",
+  usedExerciseIndices: number[] = []
+): { exercise: SentenceComplete; exerciseIndex: number } {
   const config = DIFFICULTY_CONFIG[difficulty];
 
+  const availableIndices = exercisesData.exercises
+    .map((_, index) => index)
+    .filter((index) => !usedExerciseIndices.includes(index));
+
+  // Si no hay ejercicios disponibles, usar todos
+  const indicesToChooseFrom =
+    availableIndices.length > 0
+      ? availableIndices
+      : exercisesData.exercises.map((_, index) => index);
+
+  const randomIndex =
+    indicesToChooseFrom[Math.floor(Math.random() * indicesToChooseFrom.length)];
+
+  const selectedExercise = exercisesData.exercises[randomIndex];
+
   // Filtrar la oración para limitar la cantidad de espacios en blanco según la dificultad
-  const filteredSentence = final_lenguajes.sentence.slice();
+  const filteredSentence = selectedExercise.sentence.slice();
 
   // Contar cuántos espacios en blanco hay en total
   const totalBlanks = filteredSentence.filter(
@@ -83,9 +102,12 @@ export function loadRandomSentenceComplete(
   );
 
   return {
-    title: final_lenguajes.title,
-    labels: final_lenguajes.labels,
-    sentence,
-    options: options.sort(() => Math.random() - 0.5),
+    exercise: {
+      title: selectedExercise.title,
+      labels: selectedExercise.labels,
+      sentence,
+      options: options.sort(() => Math.random() - 0.5),
+    },
+    exerciseIndex: randomIndex,
   };
 }

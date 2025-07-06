@@ -6,7 +6,7 @@ import { useSentenceComplete } from "./useSentenceComplete";
 
 export const MIN_EXERCISES = 1;
 export const MAX_EXERCISES = 100;
-export const MAX_EXERCISES_DEFAULT = 10;
+export const MAX_EXERCISES_DEFAULT = 5;
 
 export type Difficulty = "easy" | "medium" | "hard";
 
@@ -34,6 +34,7 @@ interface Hook {
   difficulty: Difficulty;
   history: SentenceComplete[];
   status: "idle" | "playing" | "finished";
+  usedExerciseIndices: number[]; // Nuevo: índices de ejercicios ya usados
   hasHydrated: boolean;
   init: () => void;
   advance: () => void;
@@ -49,23 +50,36 @@ export const useTombola = create<Hook>()(
       completedExercises: 1,
       history: [],
       status: "idle",
+      usedExerciseIndices: [], // Nuevo: inicializar array vacío
       hasHydrated: false,
 
       init: () => {
         set({
           completedExercises: 1,
           history: [],
+          usedExerciseIndices: [], // Reiniciar los ejercicios usados
           status: "playing",
         });
-        const { difficulty } = get();
-        useSentenceComplete
-          .getState()
-          .init(loadRandomSentenceComplete(difficulty));
+        const { difficulty, usedExerciseIndices } = get();
+        const { exercise, exerciseIndex } = loadRandomSentenceComplete(
+          difficulty,
+          usedExerciseIndices
+        );
+        useSentenceComplete.getState().init(exercise);
+
+        set((state) => ({
+          usedExerciseIndices: [...state.usedExerciseIndices, exerciseIndex],
+        }));
       },
 
       advance: () => {
         const { getInfo, init } = useSentenceComplete.getState();
-        const { completedExercises, limitExercises, difficulty } = get();
+        const {
+          completedExercises,
+          limitExercises,
+          difficulty,
+          usedExerciseIndices,
+        } = get();
 
         set((state) => ({
           history: [...state.history, { ...getInfo() }],
@@ -78,7 +92,15 @@ export const useTombola = create<Hook>()(
           set(() => ({
             status: "playing",
           }));
-          init(loadRandomSentenceComplete(difficulty));
+          const { exercise, exerciseIndex } = loadRandomSentenceComplete(
+            difficulty,
+            usedExerciseIndices
+          );
+          init(exercise);
+
+          set((state) => ({
+            usedExerciseIndices: [...state.usedExerciseIndices, exerciseIndex],
+          }));
         }
       },
 

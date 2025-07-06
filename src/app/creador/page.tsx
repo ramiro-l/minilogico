@@ -91,7 +91,6 @@ function parseText(text: string): {
 }
 
 export default function CreadorPage() {
-  const [materia, setMateria] = useState("Lenguaje Formal y Computabilidad");
   const [labels, setLabels] = useState("");
   const [title, setTitle] = useState("");
   const [textContent, setTextContent] = useState("");
@@ -154,14 +153,13 @@ export default function CreadorPage() {
       : ["Item 1"];
 
     const exerciseDefinition: ExerciseDefinition = {
-      materia,
       labels: labelsArray,
       title,
       sentence: validSegments,
     };
 
     return JSON.stringify(exerciseDefinition, null, 2);
-  }, [materia, labels, title, segments, allErrors]);
+  }, [labels, title, segments, allErrors]);
 
   const copyToClipboard = async () => {
     if (!generatedJSON) return;
@@ -216,17 +214,6 @@ export default function CreadorPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="grid gap-3 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block font-medium text-gray-700 text-xs">
-                    Materia
-                  </label>
-                  <input
-                    value={materia}
-                    onChange={(e) => setMateria(e.target.value)}
-                    placeholder="Lenguaje Formal y Computabilidad"
-                    className="w-full rounded border border-gray-200 p-2 text-sm focus:border-blue-500 focus:outline-none"
-                  />
-                </div>
                 <div>
                   <label className="mb-1 block font-medium text-gray-700 text-xs">
                     Etiquetas

@@ -1,33 +1,138 @@
 {
-  "materia": "Lenguaje Formal y Computabilidad",
-  "labels": ["Combo 1", "Item 4"],
-  "title": "Familia $\\Sigma$-indexada de funciones",
-  "sentence": [
-    "Dado un alfabeto $\\Sigma$, una familia $\\Sigma$-indexada de funciones es una función",
+  "materia": "Lenguaje Formales y Computabilidad",
+  "exercises": [
     {
-      "correct": "$\\mathcal{G}$",
-      "distractors": ["$H$", "$f$"]
+      "labels": ["Combo 1", "Item 1"],
+      "title": "Conjunto $\\Sigma$-recursivo",
+      "sentence": [
+        "Un conjunto",
+        {
+          "correct": "$S$",
+          "distractors": ["$T$", "$R$"]
+        },
+        "es llamado $\\Sigma$-recursivo si y sólo si su función característica",
+        {
+          "correct": "$\\chi_{S}$",
+          "distractors": ["$\\rho_{S}$", "$f_{S}$"]
+        },
+        "es",
+        {
+          "correct": "$\\Sigma$-recursiva",
+          "distractors": ["$\\omega$-recursiva", "$\\Sigma$-mixta"]
+        },
+        "."
+      ]
     },
-    "tal que su dominio es",
     {
-      "correct": "$\\Sigma$",
-      "distractors": ["$\\omega$", "$\\Sigma^*$"]
+      "labels": ["Combo 1", "Item 2"],
+      "title": "Codificación de infinituplas",
+      "sentence": [
+        "Dada una infinitupla",
+        {
+          "correct": "$(s_1, s_2, \\dots)$",
+          "distractors": ["$(x_1, x_2, \\dots)$", "$(t_1, t_2, \\dots)$"]
+        },
+        "usamos",
+        {
+          "correct": "$\\langle s_1, s_2, \\dots \\rangle$",
+          "distractors": ["$[s_1, s_2, \\dots]$", "$(s_1, s_2, \\dots)$"]
+        },
+        "para denotar el número",
+        {
+          "correct": "$\\prod_{i=1}^{\\infty} pr(i)^{s_i}$",
+          "distractors": ["$\\sum_{i=1}^{\\infty} s_i$", "$\\prod_{i=1}^{n} s_i$"]
+        },
+        ", donde $pr(i)$ es el i-ésimo primo."
+      ]
     },
-    "y para cada",
     {
-      "correct": "$a \\in \\Sigma$",
-      "distractors": ["$x \\in \\omega$", "$\\alpha \\in \\Sigma^*$"]
+      "labels": ["Combo 1", "Item 3"],
+      "title": "Función $\\Sigma$-mixta",
+      "sentence": [
+        "Sea $\\Sigma$ un alfabeto finito. Diremos que una función",
+        {
+          "correct": "$f$",
+          "distractors": ["$G$", "$H$"]
+        },
+        "es una función $\\Sigma$-mixta si existen",
+        {
+          "correct": "$n, m \\geq 0$",
+          "distractors": ["$n = m$", "$n, m < 0$"]
+        },
+        "tales que su dominio está contenido en",
+        {
+          "correct": "$\\omega^n \\times \\Sigma^{*m}$",
+          "distractors": ["$\\Sigma^{*n} \\times \\omega^m$", "$\\omega^n \\times \\omega^m$"]
+        },
+        "y su imagen está contenida en",
+        {
+          "correct": "$\\omega$ o $\\Sigma^{*}$",
+          "distractors": ["$\\Sigma$", "$\\omega^{*}$"]
+        },
+        "."
+      ]
     },
-    "se tiene que",
     {
-      "correct": "$\\mathcal{G}(a)$",
-      "distractors": ["$f(a)$", "$H(a)$"]
+      "labels": ["Combo 1", "Item 4"],
+      "title": "Familia $\\Sigma$-indexada de funciones",
+      "sentence": [
+        "Dado un alfabeto $\\Sigma$, una familia $\\Sigma$-indexada de funciones es una función",
+        {
+          "correct": "$\\mathcal{G}$",
+          "distractors": ["$H$", "$f$"]
+        },
+        "tal que su dominio es",
+        {
+          "correct": "$\\Sigma$",
+          "distractors": ["$\\omega$", "$\\Sigma^*$"]
+        },
+        "y para cada",
+        {
+          "correct": "$a \\in \\Sigma$",
+          "distractors": ["$x \\in \\omega$", "$\\alpha \\in \\Sigma^*$"]
+        },
+        "se tiene que",
+        {
+          "correct": "$\\mathcal{G}(a)$",
+          "distractors": ["$f(a)$", "$H(a)$"]
+        },
+        "es una función, la cual se denota también por",
+        {
+          "correct": "$\\mathcal{G}_a$",
+          "distractors": ["$\\mathcal{H}_a$", "$G_a$"]
+        },
+        "."
+      ]
     },
-    "es una función, la cual se denota también por",
     {
-      "correct": "$\\mathcal{G}_a$",
-      "distractors": ["$\\mathcal{H}_a$", "$G_a$"]
-    },
-    "."
+      "labels": ["Combo 1", "Item 5"],
+      "title": "Recursión primitiva $R(f, \\mathcal{G})$",
+      "sentence": [
+        "Sea",
+        {
+          "correct": "$f$",
+          "distractors": ["$g$", "$H$"]
+        },
+        "una función y $\\mathcal{G}$ una familia $\\Sigma$-indexada de funciones. La función",
+        {
+          "correct": "$R(f, \\mathcal{G})$",
+          "distractors": ["$S(f, \\mathcal{G})$", "$T(f, \\mathcal{G})$"]
+        },
+        "se define por recursión primitiva de la siguiente forma: para la palabra vacía",
+        {
+          "correct": "$\\varepsilon$",
+          "distractors": ["$\\alpha$", "$0$"]
+        },
+        "vale que $R(f, \\mathcal{G})(\\vec{x}, \\vec{\\alpha}, \\varepsilon) = f(\\vec{x}, \\vec{\\alpha})$ y para $\\alpha a$ se define como",
+        {
+          "correct": "$\\mathcal{G}_a(R(f, \\mathcal{G})(\\vec{x}, \\vec{\\alpha}, \\alpha), \\alpha)$",
+          "distractors": [
+            "$R(f, \\mathcal{G})(\\vec{x}, \\vec{\\alpha}, \\alpha)$",
+            "$\\mathcal{G}(R(f, \\mathcal{G}))$"
+          ]
+        },
+        "."
+      ]
+    }
   ]
 }
