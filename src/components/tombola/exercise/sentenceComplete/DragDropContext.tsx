@@ -1,6 +1,14 @@
 "use client";
 
-import { closestCenter, DndContext, type DragEndEvent } from "@dnd-kit/core";
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 
 import type { Option } from "@/lib/tombola/types/tombolaExercise";
 
@@ -51,8 +59,14 @@ export default function DragDropContext({
     }
   };
 
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
       {children}
     </DndContext>
   );

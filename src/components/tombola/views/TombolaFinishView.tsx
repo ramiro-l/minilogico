@@ -32,7 +32,7 @@ export default function TombolaFinishView() {
   }).length;
 
   return (
-    <div className="my-auto w-full py-6">
+    <div className="my-auto w-full py-6 max-md:mx-4">
       <div className="mb-6 text-center">
         <h1 className="mb-2 font-bold text-2xl">¡Terminaste!</h1>
         <p className="text-gray-600">

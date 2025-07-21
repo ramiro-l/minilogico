@@ -9,7 +9,7 @@ export default function TombolaExerciseView() {
   const { advance, limitExercises, completedExercises } = useTombola();
 
   return (
-    <div className="m-auto flex flex-col gap-4 p-6">
+    <div className="mx-auto mt-4 flex flex-col gap-4 p-6 lg:mt-12">
       <div className="space-y-2">
         <div className="flex justify-between text-gray-600 text-sm">
           <span>

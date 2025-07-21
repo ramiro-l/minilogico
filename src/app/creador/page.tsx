@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import Link from "next/link";
 
 import { Copy } from "lucide-react";
 
@@ -39,6 +41,7 @@ export default function CreadorPage() {
     "."
   ]
 }`);
+
   const [copySuccess, setCopySuccess] = useState(false);
 
   // Parse JSON safely
@@ -69,6 +72,20 @@ export default function CreadorPage() {
   };
 
   const data = getParsedData();
+
+  const isSmallScreen = useIsSmallScreen();
+  if (isSmallScreen) {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center p-4">
+        <p className="text-balance text-center text-gray-500">
+          Esta herramienta no está disponible en pantallas pequeñas.
+        </p>
+        <Link href="/">
+          <Button className="mt-4" size="sm" variant="outline">Volver al inicio</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="absolute top-0 left-0 min-h-screen w-full bg-white">
@@ -217,4 +234,21 @@ export default function CreadorPage() {
       </div>
     </div>
   );
+}
+
+function useIsSmallScreen(breakpoint = 768) {
+  const [isSmall, setIsSmall] = useState(false);
+
+  useEffect(() => {
+    function checkScreen() {
+      setIsSmall(window.innerWidth < breakpoint);
+    }
+
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+
+    return () => window.removeEventListener("resize", checkScreen);
+  }, [breakpoint]);
+
+  return isSmall;
 }
