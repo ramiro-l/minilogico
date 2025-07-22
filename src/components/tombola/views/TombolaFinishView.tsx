@@ -40,7 +40,7 @@ export default function TombolaFinishView() {
         </p>
       </div>
 
-      <Card className="mb-6 w-full border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 py-0">
+      <Card className="mb-6 w-full rounded-md border-blue-200 bg-blue-50 py-0">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
