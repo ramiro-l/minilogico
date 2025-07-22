@@ -13,9 +13,9 @@ export default function DifficultySelector() {
 
   return (
     <div className="space-y-3">
-      <h4 className="text-center font-medium text-gray-900 text-sm">
+      <p className="text-center font-medium text-gray-900 text-sm">
         Dificultad
-      </h4>
+      </p>
 
       <div className="flex flex-wrap justify-center gap-2">
         {(Object.keys(DIFFICULTY_CONFIG) as Difficulty[]).map((diff) => (

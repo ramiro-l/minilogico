@@ -13,9 +13,9 @@ export default function ExerciseCounter() {
 
   return (
     <div className="space-y-3">
-      <h4 className="text-center font-medium text-gray-900 text-sm">
+      <p className="text-center font-medium text-gray-900 text-sm">
         Cantidad de ejercicios
-      </h4>
+      </p>
       <div className="flex items-center justify-center gap-3">
         <Button
           type="button"
