@@ -1,42 +1,17 @@
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-
-import { useTombola } from "@/lib/tombola/hooks/useTombola";
-
-import ExerciseSentenceComplete from "../exercise/ExerciseSentenceComplete";
+import ExerciseAdvanceButton from "@/components/tombola/exercise/ExerciseAdvanceButton";
+import ExerciseProgress from "@/components/tombola/exercise/ExerciseProgress";
+import ExerciseSentenceComplete from "@/components/tombola/exercise/ExerciseSentenceComplete";
 
 export default function TombolaExerciseView() {
-  const { advance, limitExercises, completedExercises } = useTombola();
-
   return (
-    <div className="mx-auto mt-4 flex flex-col gap-4 p-6 lg:mt-12">
-      <div className="space-y-2">
-        <div className="flex justify-between text-gray-600 text-sm">
-          <span>
-            Ejercicio {completedExercises} de {limitExercises}
-          </span>
-          <span>
-            {Math.round(((completedExercises - 1) / limitExercises) * 100)}%
-            completado
-          </span>
-        </div>
-        <Progress
-          value={((completedExercises - 1) / limitExercises) * 100}
-          className="h-2"
-        />
-      </div>
+    <div className="mx-auto mt-4 flex flex-col gap-4 py-6 lg:mt-12">
+      <ExerciseProgress />
 
       <div className="rounded-lg border bg-white p-6 shadow-sm">
         <ExerciseSentenceComplete />
       </div>
 
-      <Button
-        className="w-full select-none"
-        onClick={advance}
-        disabled={completedExercises > limitExercises}
-      >
-        {completedExercises >= limitExercises ? "Terminar" : "Siguiente"}
-      </Button>
+      <ExerciseAdvanceButton />
     </div>
   );
 }
