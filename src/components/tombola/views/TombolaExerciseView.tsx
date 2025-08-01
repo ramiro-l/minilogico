@@ -4,7 +4,7 @@ import ExerciseSentenceComplete from "@/components/tombola/exercise/ExerciseSent
 
 export default function TombolaExerciseView() {
   return (
-    <div className="mx-auto mt-4 flex flex-col gap-4 py-6 lg:mt-12">
+    <div className="mx-auto mt-4 flex flex-col gap-4 py-6 max-md:px-4 lg:mt-12">
       <ExerciseProgress />
 
       <div className="rounded-lg border bg-white p-6 shadow-sm">
